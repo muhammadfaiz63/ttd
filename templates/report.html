@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-+JcSkHxB6c5mF74W/bsZlbSCj3YU1wJ7o+fa5b5fNqEe6d7VxIByJb1ZLx0JgFSfUxQIoexPYt4grKzj0C3H8g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 250px;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+      }
+      .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #333;
+        display: block;
+      }
+      .sidebar a:hover {
+        background-color: #e9ecef;
+      }
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        margin-top: 56px;
+      }
+      .table-fixed thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+      .table-fixed tbody {
+        display: block;
+        height: 600px;
+        overflow: auto;
+      }
+      .table-fixed thead,
+      .table-fixed tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+      .table-fixed tbody td,
+      .table-fixed thead th {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Include Sidebar -->
+    {% include 'sidebar.html' %}
+    <!-- Include Navbar -->
+    {% include 'navbar.html' %}
+    <div class="content">
+      <h2 class="text-center mb-4">Prediction Report</h2>
+      <div class="table-container border-secondary">
+        <table class="table table-bordered table-fixed">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Name</th>
+              <th scope="col">Signature</th>
+              <th scope="col">Timestamp</th>
+              <th scope="col">Prediction Type</th>
+              <th scope="col">Prediction Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in report %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ row[1] }}</td>
+              <td>
+                <img src="{{ url_for('static', filename='uploads/' ~ row[1]) }}" alt="Image" style="width: auto; height: 50px" />
+              </td>
+              <td>{{ row[3] }}</td>
+              <td>{{ row[4] }}</td>
+              <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

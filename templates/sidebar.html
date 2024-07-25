@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <style>
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 250px; /* Lebar sidebar */
+        background-color: #ffffff; /* Warna background sidebar */
+        overflow-y: auto; /* Tambahkan scrollbar jika konten lebih panjang dari sidebar */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow untuk sidebar */
+        z-index: 100; /* Atur z-index agar sidebar muncul di atas konten */
+      }
+
+      .sidebar-header {
+        background-color: transparent; /* Warna latar belakang transparan */
+        padding: 15px; /* Padding header sidebar */
+        text-align: center; /* Teks tengah pada header sidebar */
+      }
+
+      .sidebar-logo {
+        max-width: 80px; /* Lebar maksimum logo */
+      }
+
+      .sidebar-menu {
+        list-style-type: none; /* Hilangkan bullets pada menu */
+        padding: 0; /* Hilangkan padding default */
+        margin: 0; /* Hilangkan margin default */
+      }
+
+      .sidebar-menu-item {
+        margin-bottom: 10px; /* Jarak antar item menu */
+      }
+
+      .sidebar-menu-item a {
+        display: block; /* Menjadikan link sebagai blok untuk mengisi seluruh lebar */
+        padding: 10px 15px; /* Padding untuk setiap item menu */
+        color: #333; /* Warna teks */
+        text-decoration: none; /* Hilangkan underline pada link */
+        transition: background-color 0.3s ease; /* Transisi warna background saat hover */
+      }
+
+      .sidebar-menu-item a:hover {
+        background-color: #6c757d; /* Warna background saat hover */
+        color: #fff; /* Warna teks saat hover */
+      }
+
+      .sidebar-menu-item i {
+        margin-right: 10px; /* Jarak ikon dari teks */
+      }
+
+      .sidebar-menu-divider {
+        border-bottom: 1px solid #ddd; /* Garis pemisah */
+        margin: 10px 0; /* Margin atas dan bawah garis pemisah */
+      }
+
+      .sidebar-menu-logout {
+        margin-top: auto; /* Letakkan menu "Logout" di bagian bawah */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="{{ url_for('static', filename='logounsada.png') }}" alt="Logo" class="sidebar-logo img-fluid" />
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item">
+          <a href="/" class="text-black text-decoration-none"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="{{ url_for('prediction') }}" class="text-black text-decoration-none"><i class="fas fa-poll"></i> Predict</a>
+        </li>
+        <li class="sidebar-menu-item">
+          <a href="{{ url_for('report') }}" class="text-black text-decoration-none"><i class="fas fa-chart-bar"></i> Report</a>
+        </li>
+        <li class="sidebar-menu-divider"></li>
+        <!-- Divider -->
+        <li class="sidebar-menu-item sidebar-menu-logout">
+          <a href="{{ url_for('logout') }}" class="text-black text-decoration-none"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
