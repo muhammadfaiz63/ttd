@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 import os
-import mysql.connector
+import psycopg2 # type: ignore
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
@@ -10,15 +10,15 @@ from torchvision.models import resnet50
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 
-app = Flask(__name__)
+app = Flask(_name_)
 app.secret_key = 'scrypt:32768:8:1$roCjGTFYRckzsQGi$aa2d675ed3fabcc531d2199debb387144d4f457c01c34f8d3f95d8c1aa81b63e3673c4f60856e151ffff11f49416c57ba2a2feaae8041d2e2e191fe1a32c4c61'  # Replace with a secure secret key
 Bootstrap(app)
 
-# MySQL configuration
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Sup5r!n0vA$!",
+# PostgreSQL configuration
+mydb = psycopg2.connect(
+    host="103.27.206.29",
+    user="postgres",
+    password="admin",
     database="ttd"
 )
 
@@ -27,7 +27,7 @@ mycursor = mydb.cursor()
 # Create tables if not exist
 mycursor.execute("""
 CREATE TABLE IF NOT EXISTS predictions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     filename VARCHAR(255) NOT NULL,
     timestamps TIMESTAMP NOT NULL,
     prediction VARCHAR(50) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS predictions (
 
 mycursor.execute("""
 CREATE TABLE IF NOT EXISTS personality_predictions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     filename VARCHAR(255) NOT NULL,
     prediction VARCHAR(50) NOT NULL
 );
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS personality_predictions (
 
 mycursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
@@ -193,7 +193,6 @@ def upload_personality():
                 _, personality_predicted = torch.max(outputs, 1)
                 personality_predicted_class = "Have Ordinary Intrinsic Motivation" if personality_predicted.item() == 0 else "Have Strong Intrinsic Motivation"
 
-           
             sql = "INSERT INTO predictions (filename, timestamps, prediction, prediction_type) VALUES (%s, %s, %s, %s)"
             current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             val = (filename, current_timestamp, personality_predicted_class, "personality")
@@ -244,5 +243,5 @@ def report():
 
     return render_template('report.html', report=report)
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     app.run(debug=True)
